@@ -25,3 +25,14 @@ const listaPokemons = [
 ];
 
 
+app.get('/pokemons', (req, res) => {
+    const { name } = req.query;
+    let listaRetorno = listaPokemons.filter(i => i.includes(name || ''));
+    return res.json(listaRetorno); 
+});
+
+
+
+app.listen(3001, () => {
+    console.log('Servidor rodando na porta 3001');
+})
