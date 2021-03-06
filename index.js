@@ -1,37 +1,15 @@
 const express = require('express');
 const app = express();
+const axios = require('axios');
+const apiUrl = 'https://pokeapi.co/api/v2/pokemon?offset=0&limit=50';
 
-const listaPokemons = [
-    'Bulbasaur',
-    'Ivysaur',	
-    'Venusaur',
-    'Mega Venusaur',
-    'Charmander',
-    'Charmeleon',
-    'Charizard',
-    'Mega Charizard X',
-    'Mega Charizard Y',
-    'Squirtle',
-    'Wartortle',
-    'Blastoise',
-    'Mega Blastoise',
-    'Caterpie',
-    'Metapod',
-    'Butterfree',
-    'Weedle',
-    'Kakuna',
-    'Beedrill',
-    'Mega Beedrill',
-];
-
-
-app.get('/pokemons', (req, res) => {
+axios.get(apiUrl).then((response) => {
+    app.get('/pokemons', (req, res) => {
     const { name } = req.query;
-    let listaRetorno = listaPokemons.filter(i => i.includes(name || ''));
+    let listaRetorno = response.data.results.map((pokemon) => pokemon.name).filter(i => i.includes(name || ''));
     return res.json(listaRetorno); 
+    })
 });
-
-
 
 app.listen(3001, () => {
     console.log('Servidor rodando na porta 3001');
